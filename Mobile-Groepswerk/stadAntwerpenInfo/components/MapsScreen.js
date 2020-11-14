@@ -6,8 +6,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import MapView from 'react-native-maps';
 
 // pagina maps
-export default MapsScreen = ({navigation}) => {
-
+export default MapsScreen = (props) => {
+    let swimmingPoolData = props.publicSwimmingPoolData;
+    console.log(swimmingPoolData);
     return (
       <View style={styles.containerMap}>
         <MapView style={styles.mapStyle} region={{latitude:51.228493,

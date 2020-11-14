@@ -44,12 +44,15 @@ console.log(zwembadData())
 
 
 const StackMaps = (props) => {
-  
+  let AllData = props.pass2;
+  //console.log(props.pass2);
     
   
   return(
     <Stack.Navigator>
-      <Stack.Screen name="MapsScreen" component={MapsScreen} />
+      <Stack.Screen name="MapsScreen"  >
+        {() => <MapsScreen {...props} publicSwimmingPoolData={AllData}/>}
+      </Stack.Screen>
       <Stack.Screen name="MapsDetail" component={MapsDetail} />
     </Stack.Navigator> 
   )
@@ -76,7 +79,7 @@ export default function app() {
       let fetchData = await fetch("https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek6/MapServer/644/query?where=1%3D1&outFields=*&outSR=4326&f=json")
     let json = await fetchData.json();
     //console.log(json)
-    setZwembaden(json.features)
+    setZwembaden(json)
     }
     catch(error){
 
@@ -89,8 +92,10 @@ export default function app() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Maps" component={StackMaps} options={{tabBarIcon: ({color, size})  =>(<FontAwesome name="list" size={24} color="black" />)}}/> 
-        <Tab.Screen name="List" component={StackList} options={{tabBarIcon: ({color, size})  =>(<Entypo name="map" size={24} color="black"/>)}}/>         
+        <Tab.Screen name="Maps"  options={{tabBarIcon: ({color, size})  =>(<FontAwesome name="list" size={24} color="black" />)}}> 
+          {props => <StackMaps {...props} pass2={zwembaden}/>}
+        </Tab.Screen> 
+        <Tab.Screen name="List" component={StackList} options={{tabBarIcon: ({color, size})  =>(<Entypo name="map" size={24} color="black"/>)}}/>        
       </Tab.Navigator>
     </NavigationContainer>
   );
