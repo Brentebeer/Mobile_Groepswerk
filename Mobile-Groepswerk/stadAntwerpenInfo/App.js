@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 //import Components
-import Header from './components/Header';
+
 import MapsScreen from './components/MapsScreen';
 import MapsDetail from './components/MapsDetails';
 import ListScreen from './components/ListScreen';
@@ -76,7 +76,7 @@ export default function app() {
   const [zwembaden, setZwembaden] = useState([]);
   const loadZwembaden = async() => {
     try{
-      let fetchData = await fetch("https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek6/MapServer/644/query?where=1%3D1&outFields=*&outSR=4326&f=json")
+      let fetchData = await fetch("https://api.jsonbin.io/b/5fae7fca43fc1e2e1b41bca5/1")
     let json = await fetchData.json();
     //console.log(json)
     setZwembaden(json)
