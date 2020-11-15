@@ -79,7 +79,7 @@ export default function app() {
       let fetchData = await fetch("https://api.jsonbin.io/b/5fae7fca43fc1e2e1b41bca5/1")
     let json = await fetchData.json();
     //console.log(json)
-    setZwembaden(json)
+    setZwembaden(json.features)
     }
     catch(error){
 

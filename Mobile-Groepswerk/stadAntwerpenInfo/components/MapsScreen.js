@@ -36,8 +36,8 @@ export default MapsScreen = (props) => {
             return (<MapView.Marker
             key={index}
             coordinate={{latitude: report.geometry.coordinates[1], longitude: report.geometry.coordinates[0]}}
-            title={report.attributes.naam}
-            description={report.attributes.straat}
+            title={report.properties.naam}
+            description={report.properties.straat}
             />
               
           )})}
