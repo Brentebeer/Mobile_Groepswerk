@@ -21,9 +21,9 @@ export default MapsScreen = (props) => {
     // }
     
     let data = props.publicSwimmingPoolData;
-    console.log(data);
+    
     //console.log(props.publicSwimmingPoolData.length);
-
+    
     
     return (
       <View style={styles.containerMap}>
@@ -32,15 +32,15 @@ export default MapsScreen = (props) => {
            longitudeDelta:0.12874,
            latitudeDelta:0.04888}}>
           
-          {props.publicSwimmingPoolData.length > 0 && props.publicSwimmingPoolData.map((report,index) => {
-            <Marker
+          {data.map((report,index) => {
+            return (<MapView.Marker
             key={index}
             coordinate={{latitude: report.geometry.coordinates[1], longitude: report.geometry.coordinates[0]}}
-            title={report.attributes.naam}
-            description={report.attributes.straat}
-            >
-              </Marker>
-          })}
+            title={report.properties.naam}
+            description={report.properties.straat}
+            />
+            
+          )})}
           
         
         
