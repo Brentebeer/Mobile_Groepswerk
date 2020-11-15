@@ -33,14 +33,14 @@ export default MapsScreen = (props) => {
            latitudeDelta:0.04888}}>
           
           {props.publicSwimmingPoolData.length > 0 && props.publicSwimmingPoolData.map((report,index) => {
-            <Marker
+            return (<MapView.Marker
             key={index}
             coordinate={{latitude: report.geometry.coordinates[1], longitude: report.geometry.coordinates[0]}}
             title={report.attributes.naam}
             description={report.attributes.straat}
-            >
-              </Marker>
-          })}
+            />
+              
+          )})}
           
         
         
