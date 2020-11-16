@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 // Voor de map
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Callout, Marker } from 'react-native-maps';
 import Markers from './Markers';
 import { createNativeWrapper } from 'react-native-gesture-handler';
 
@@ -33,17 +33,15 @@ export default MapsScreen = (props) => {
            latitudeDelta:0.04888}}>
           
           {props.publicSwimmingPoolData.length > 0 && props.publicSwimmingPoolData.map((report,index) => {
-            return (<MapView.Marker
+            return (<Marker
             key={index}
             coordinate={{latitude: report.geometry.coordinates[1], longitude: report.geometry.coordinates[0]}}
             title={report.properties.naam}
             description={report.properties.straat}
-            />
-              
+            
+            /> 
           )})}
           
-        
-        
         </MapView>
       </View>
     )
