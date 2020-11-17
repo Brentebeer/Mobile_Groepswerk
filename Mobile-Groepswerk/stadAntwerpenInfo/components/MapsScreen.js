@@ -39,8 +39,18 @@ export default MapsScreen = (props) => {
             title={report.properties.naam}
             description={report.properties.straat}
             
-            /> 
+            > 
+            <Callout>
+              <View >
+                <Text>Title: {report.properties.naam}</Text>
+                <Text>Adres: {report.properties.straat}</Text>
+                <Button title="Details"  />
+              </View>
+              
+            </Callout>
+          </Marker>
           )})}
+          
           
         </MapView>
       </View>
@@ -51,6 +61,19 @@ export default MapsScreen = (props) => {
 
 
   const styles = StyleSheet.create({
+    bubble:{
+      //flex: 1,
+      flexDirection: 'row',
+      alignSelf: 'flex-start',
+      backgroundColor: '#fff',
+      borderRadius: 6,
+      borderColor: '#ccc',
+      borderWidth: 0.1,
+      padding: 0,
+      width: 200,
+      height: 100
+
+    },
     containerMap: {
         flex: 1,
         backgroundColor: '#fff',
