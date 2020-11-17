@@ -5,7 +5,7 @@ import {useStateIfMounted} from 'use-state-if-mounted';
 
 
 //import Components
-import Header from './components/Header';
+
 import MapsScreen from './components/MapsScreen';
 import MapsDetail from './components/MapsDetails';
 import ListScreen from './components/ListScreen';
@@ -35,12 +35,15 @@ const Stack = createStackNavigator();
 
 
 const StackMaps = (props) => {
-  
+  let AllData = props.pass2;
+  //console.log(props.pass2);
     
   
   return(
     <Stack.Navigator>
-      <Stack.Screen name="MapsScreen" component={MapsScreen} />
+      <Stack.Screen name="MapsScreen"  >
+        {() => <MapsScreen {...props} publicSwimmingPoolData={AllData}/>}
+      </Stack.Screen>
       <Stack.Screen name="MapsDetail" component={MapsDetail} />
     </Stack.Navigator> 
   )
@@ -82,9 +85,9 @@ export default function app() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Maps" component={StackMaps} options={{tabBarIcon: ({color, size})  =>(<FontAwesome name="list" size={24} color="black" />)}}/> 
-        
-        
+        <Tab.Screen name="Maps"  options={{tabBarIcon: ({color, size})  =>(<FontAwesome name="list" size={24} color="black" />)}}> 
+          {props => <StackMaps {...props} pass2={zwembaden}/>}
+        </Tab.Screen> 
         <Tab.Screen name="List"   options={{tabBarIcon: ({color, size})  =>(<Entypo name="map" size={24} color="black"/>)}}>
         {(props)=><StackList {...props} pass2={zwembaden} />}
           </Tab.Screen>
