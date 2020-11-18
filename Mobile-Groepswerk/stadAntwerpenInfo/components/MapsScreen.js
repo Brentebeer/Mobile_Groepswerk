@@ -23,7 +23,7 @@ export default MapsScreen = (props) => {
     // }
     
     let navigation = props.navigation;
-    let data = props.publicSwimmingPoolData; /*word gebruikt om de data te testen NIET VERWIJDEREN*/
+    //let data = props.publicSwimmingPoolData; /*word gebruikt om de data te testen NIET VERWIJDEREN*/
     //console.log(data); /*word gebruikt om de data te testen NIET VERWIJDEREN*/
     //console.log(props.publicSwimmingPoolData.length);
 
