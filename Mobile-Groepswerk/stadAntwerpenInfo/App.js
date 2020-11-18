@@ -37,14 +37,12 @@ const Stack = createStackNavigator();
 const StackMaps = (props) => {
   let AllData = props.pass2;
   //console.log(props.pass2);
-    
-  
   return(
     <Stack.Navigator>
       <Stack.Screen name="MapsScreen"  >
         {() => <MapsScreen {...props} publicSwimmingPoolData={AllData}/>}
       </Stack.Screen>
-      <Stack.Screen name="MapsDetail" component={MapsDetail} />
+      <Stack.Screen name="ListDetails" component={ListDetails} />
     </Stack.Navigator> 
   )
 }
@@ -52,7 +50,6 @@ const StackMaps = (props) => {
 const StackList = (props) => {
   let zwembaden2=props.pass2
     
-  
   return(
     <Stack.Navigator>
       <Stack.Screen name="ListScreen">
