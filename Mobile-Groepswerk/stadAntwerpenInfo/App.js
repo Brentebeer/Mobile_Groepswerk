@@ -5,11 +5,10 @@ import {useStateIfMounted} from 'use-state-if-mounted';
 
 
 //import Components
-
 import MapsScreen from './components/MapsScreen';
-import MapsDetail from './components/MapsDetails';
 import ListScreen from './components/ListScreen';
-import listDetail from './components/ListDetails';
+import ListDetail from './components/ListDetails';
+import Favorite from './components/ListFavorite';
 
 //tab navigation Bottom tab navigator
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -24,15 +23,10 @@ import { FontAwesome } from '@expo/vector-icons';
 
 //stack navigation
 import {createStackNavigator} from '@react-navigation/stack';
-import ListDetails from './components/ListDetails';
+
+
 
 const Stack = createStackNavigator();
-
-
-
-
-
-
 
 const StackMaps = (props) => {
   let AllData = props.pass2;
@@ -60,6 +54,15 @@ const StackList = (props) => {
   )
 }
 
+const StackFavorite = () => {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="ListFavorite" component={Favorite} />
+    </Stack.Navigator>
+  )
+}
+
+
 
 //taps
 export default function app() {
@@ -86,8 +89,11 @@ export default function app() {
           {props => <StackMaps {...props} pass2={zwembaden}/>}
         </Tab.Screen> 
         <Tab.Screen name="List"   options={{tabBarIcon: ({color, size})  =>(<Entypo name="map" size={24} color="black"/>)}}>
-        {(props)=><StackList {...props} pass2={zwembaden} />}
-          </Tab.Screen>
+          {(props)=><StackList {...props} pass2={zwembaden} />}
+        </Tab.Screen>
+        <Tab.Screen name="Favorites" component={StackFavorite}>
+
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );
