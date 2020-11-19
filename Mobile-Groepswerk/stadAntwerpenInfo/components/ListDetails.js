@@ -3,16 +3,21 @@ import { StyleSheet, Text, View, StatusBar, Platform, Button } from 'react-nativ
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-community/async-storage';
 import {ListItem} from 'react-native-elements'
+import { navigation} from '@react-navigation/native';
 
 //Pagina List
 export default ListDetails = (props) => {
+  const [buttonText, setButtonText] = useState("Voeg toe aan favorieten");
   const[favs,setFav]=useState(false) //
+  const[saveId, setSaveId] = useState()
   
   
   const storeFav = async (value) => { //saved the value
     try {
-      await AsyncStorage.setItem(value.properties.naam, JSON.stringify(value))
-      console.log('saved value' + value.properties.naam)
+      await AsyncStorage.setItem(`@${value.properties.naam}`, JSON.stringify(value))
+      console.log('saved ' + value.properties.naam)
+
+      setButtonText("Verwijder uit favorieten")
     } catch (e) {
         // saving error
       }
@@ -20,8 +25,10 @@ export default ListDetails = (props) => {
 
     const deleteFav = async (value) => { // delete the value
       try {
-        await AsyncStorage.removeItem(value.properties.naam)
-        console.log('delete value' + value.properties.naam)
+        console.log('ik ga verwijderen')
+        await AsyncStorage.removeItem(`@${value.properties.naam}`)
+        console.log('delete ' + value.properties.naam)
+        setButtonText("Voeg toe aan favorieten")
       } catch(e) {
 
       }
@@ -31,44 +38,26 @@ export default ListDetails = (props) => {
     //deleteFav(props.route.params);
 
 
-    /*
+    
     const getFavs = async (value) => {
       try {
-      const loaded = JSON.parse(await AsyncStorage.getItem(value.properties.naam))
-      if(loaded !== null) {
-      setFav(loaded)
+  
+        const loaded = await AsyncStorage.getItem(`@${value.properties.naam}`)
+        console.log(loaded)
+        if(loaded !== null) {
+          setButtonText("Verwijder uit favorieten")
+          setFav(true)
       }
       
       } catch(e) {
       // error reading value
       }
       }
-      */
+      
       useEffect(() => {
-        //getFavs(props.route.params);
-        
+        getFavs(props.route.params);
         }, []);
     
-        /*
-        const FavFunction=(result)=> {
-          if(favs) { //als favs true is delete
-            deleteFav(props.route.params)
-            //setFav(true)
-            console.log("favs is true " + result)
-
-          }
-          if (!favs) { // als favs false is save
-            storeFav(props.route.params)
-            //setFav(false)
-            console.log("favs is false " + result)
-          }
-        }
-        FavFunction(favs)
-        //console.log(favs);
-        */
-        
-
-
     return (
       <View style={styles.container}>
         <View style={styles.card}>
@@ -79,7 +68,7 @@ export default ListDetails = (props) => {
         <Text style={styles.htext}>Publiek:</Text>
         <Text style={styles.text}>{props.route.params.properties.publiek}</Text>
         
-        <Button title={favs ?"verwijderen uit favorieten":"toevoegen aan favorieten"} onPress={()=>{ favs ?  deleteFav(props.route.params) : storeFav(props.route.params),   /*FavFunction()*/ /*getFavs(props.route.params),*/ /*deleteFav(props.route.params)*/ setFav(!favs)}}></Button>
+        <Button title={buttonText} onPress={()=>{ favs ? deleteFav(props.route.params) : storeFav(props.route.params); setFav(!favs)}}/>
     
       </View>
 

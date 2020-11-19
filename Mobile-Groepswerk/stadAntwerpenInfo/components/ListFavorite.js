@@ -1,19 +1,48 @@
-import React from 'react';
+import React ,{ useEffect, useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { navigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
-export default Favorite = () => {
+export default Favorite = (props) => {
+  const[storedData, setStoredData]=useState([]) //
+  
+  let allData = []
+  allData = props.publicSwim;
+  //console.log(allData);
 
+  //setStoredData()
+  const id = () => {
+    
+    allData.forEach( async (location) => {
+      const value = await AsyncStorage.getItem(`@${location.properties.naam}`)
+      if(value !== null) {
+        setStoredData(storedData.push(location))
+        //console.log(storedData);
+      }
+        
+        //console.log(value);
+    })
+    
+  }
+  
+  id(props.publicSwim);
+  console.log(storedData);
+
+
+  //AsyncStorage.getItem(item.name);
+  //setStoredData(route.params)
+  //let dataTest = props.item;
+  
+  //let addData = props.addFavorite
+  //let removeData = props.removeFavorte
+  
     return (
+      
       <View style={styles.containerMap}>
-        <View style={styles.card}>
-        <Text style={styles.htext}>Naam:</Text>
-        <Text style={styles.text}>{}</Text>
-        <Text style={styles.htext}>Type:</Text>
-        <Text style={styles.text}>{}</Text>
-        <Text style={styles.htext}>Publiek:</Text>
-        <Text style={styles.text}>{}</Text>
-        </View>
+        <Text></Text>
+        <Text></Text>
       </View>
     )
     

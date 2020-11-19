@@ -8,7 +8,7 @@ import {useStateIfMounted} from 'use-state-if-mounted';
 import MapsScreen from './components/MapsScreen';
 import ListScreen from './components/ListScreen';
 import ListDetail from './components/ListDetails';
-import Favorite from './components/ListFavorite';
+import ListFavorite from './components/ListFavorite';
 
 //tab navigation Bottom tab navigator
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -23,6 +23,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 //stack navigation
 import {createStackNavigator} from '@react-navigation/stack';
+
 
 
 
@@ -50,14 +51,18 @@ const StackList = (props) => {
       {(props)=><ListScreen {...props} apiData={zwembaden2}/>}
       </Stack.Screen>
       <Stack.Screen name="ListDetails" component={ListDetails} />
+      <Stack.Screen name="ListFavorite" component={ListFavorite} />
     </Stack.Navigator> 
   )
 }
 
-const StackFavorite = () => {
+const StackFavorite = (props) => {
+  let zwembaden3 = props.favoritesSwimData
   return(
     <Stack.Navigator>
-      <Stack.Screen name="ListFavorite" component={Favorite} />
+      <Stack.Screen name="ListFavorite" >
+      {() => <ListFavorite {...props} publicSwim={zwembaden3}/>}
+      </Stack.Screen>
     </Stack.Navigator>
   )
 }
@@ -91,8 +96,8 @@ export default function app() {
         <Tab.Screen name="List"   options={{tabBarIcon: ({color, size})  =>(<Entypo name="map" size={24} color="black"/>)}}>
           {(props)=><StackList {...props} pass2={zwembaden} />}
         </Tab.Screen>
-        <Tab.Screen name="Favorites" component={StackFavorite}>
-
+        <Tab.Screen name="Favorites" >
+          {(props) => <StackFavorite {...props} favoritesSwimData={zwembaden}/>}
         </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
