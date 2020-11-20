@@ -1,60 +1,49 @@
 import React ,{ useEffect, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, Platform, Button } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Platform, Button,TouchableOpacity,Image} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-community/async-storage';
 import {ListItem} from 'react-native-elements'
-
+import { Camera } from 'expo-camera';
+import { navigation} from '@react-navigation/native';
+import CameraApp from './Camera';
+import * as FileSystem from 'expo-file-system';
+import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 //Pagina List
 export default ListDetails = (props) => {
-  const[favs,setFav]=useState()
+  let id=props.route.params.properties.OBJECTID
+  let navigation=props.navigation;
+  const[jpg,setImg]=useState();
   
-  
-  const storeFav = async (value) => {
-    try {
-    await AsyncStorage.setItem(value.properties.naam, JSON.stringify(value))
-    } catch (e) {
-    // saving error
-    }
-    }
 
-    const deleteFav=async (value) => {
+    const getImg=async()=>{
       try {
-        await AsyncStorage.removeItem(value.properties.naam)
-      } catch(e) {
+        let img=await FileSystem.getInfoAsync(FileSystem.documentDirectory+id+'.jpg')
+
+        if(img!==null) {
+          console.log('test',img.uri)
+          setImg(img.uri)
+        }
+      }
+       catch(e) {
 
       }
     }
 
-    const getFavs = async (value) => {
-      try {
-      const loaded = JSON.parse(await AsyncStorage.getItem(value.properties.naam))
-      if(loaded !== null) {
-      setFav(loaded)
-      }
-      
-      } catch(e) {
-      // error reading value
-      }
-      }
+    
       useEffect(() => {
-        getFavs(props.route.params);
         
-        }, [favs]);
+        getImg();
+        }, [jpg]);
     
 
-        const FavFunction=()=> {
-          if(favs) {
-            deleteFav(props.route.params)
-            
 
-          }
-          if (!favs) {
-            storeFav(props.route.params)
-            
-          }
-        }
+
+
+
+        
     return (
       <View style={styles.container}>
+        <Image style={styles.image} source={{uri:jpg}} key={Date.now()}></Image>
         <View style={styles.card}>
         <Text style={styles.htext}>Naam:</Text>
         <Text style={styles.text}>{props.route.params.properties.naam}</Text>
@@ -63,8 +52,8 @@ export default ListDetails = (props) => {
         <Text style={styles.htext}>Publiek:</Text>
         <Text style={styles.text}>{props.route.params.properties.publiek}</Text>
         
-        <Button title={favs?"verwijderen uit favorieten":"toevoegen aan favorieten"} onPress={()=>{FavFunction(),getFavs(props.route.params)}}></Button>
-    
+        
+        <Button title="Take a picture!"   onPress={()=> {navigation.navigate('Camera',{id:props.route.params.properties.OBJECTID})}}  ></Button>
       </View>
 
       </View>
@@ -91,6 +80,13 @@ export default ListDetails = (props) => {
     htext:{
       fontSize:18,
       fontWeight:"bold"
+    },
+
+    image:{
+      flex:1,
+      width:undefined,
+      height:undefined,
+
     }
 
   });

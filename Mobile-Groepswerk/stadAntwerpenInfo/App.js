@@ -10,7 +10,7 @@ import MapsScreen from './components/MapsScreen';
 import MapsDetail from './components/MapsDetails';
 import ListScreen from './components/ListScreen';
 import listDetail from './components/ListDetails';
-
+import CameraApp from './components/Camera';
 //tab navigation Bottom tab navigator
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -59,6 +59,7 @@ const StackList = (props) => {
       {(props)=><ListScreen {...props} apiData={zwembaden2}/>}
       </Stack.Screen>
       <Stack.Screen name="ListDetails" component={ListDetails} />
+      <Stack.Screen name="Camera" component={CameraApp} />
     </Stack.Navigator> 
   )
 }

@@ -21,7 +21,7 @@ export default MapsScreen = (props) => {
     // }
     
     let data = props.publicSwimmingPoolData;
-    console.log(data);
+    
     //console.log(props.publicSwimmingPoolData.length);
 
     
