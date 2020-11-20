@@ -9,7 +9,7 @@ import { navigation} from '@react-navigation/native';
 export default ListDetails = (props) => {
   const [buttonText, setButtonText] = useState("Voeg toe aan favorieten"); // Voor de text op de knop te tonen van favorieten
   const[favs,setFav]=useState(false) // om van true naar false te gaan false is als het niet gesaven is true als het wel gesavend is. Standard false dit om als je het programma zou opstarten nog niks gesaved is
-  const[saveId, setSaveId] = useState()
+  //const[saveId, setSaveId] = useState()
   
   
   const storeFav = async (value) => { //saved the value
@@ -33,12 +33,7 @@ export default ListDetails = (props) => {
 
       }
     }
-
-    //storeFav(props.route.params);
-    //deleteFav(props.route.params);
-
-
-    
+   
     const getFavs = async (value) => {
       try {
   

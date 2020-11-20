@@ -7,7 +7,7 @@ import { navigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default Favorite = (props) => {
-  const[storedData, setStoredData]=useState() //
+  const[storedData, setStoredData]=useState() // We gebruiken deze state om data in opteslagen
   let favoriteArray = [];
   let allData = []
   allData = props.publicSwim;
@@ -23,8 +23,8 @@ export default Favorite = (props) => {
       //console.log('value ' + value)
       if(value !== null) { // als de value groter is dan null word 
         //setStoredData(value)
-        arraytest.push(value);
-        setStoredData([...arraytest])
+        arraytest.push(value); //We steken de data eerst in arraytest
+        setStoredData([...arraytest]) // En dan steken we de data in de state setStoredData Stijn dit is de enigste manier die ik vond dat werkte
         //console.log('waarde in de if ' + value + '\n') // dit is juist geeft twee waarden
         //favoriteArray.push(value)
         //console.log('value is not null = ' + storedData);
@@ -51,9 +51,9 @@ export default Favorite = (props) => {
   //console.log(storedData);
 
   useEffect(() => {
-    let navigation = props.navigation;
+    let navigation = props.navigation; // Voor te navigiren naar listdetails
     // tip van SVen CHarleer :)
-    navigation.addListener("focus", async() => {
+    navigation.addListener("focus", async() => { // Dit is nodig als we verwijderen en toevoegen en het effect hier ommiddelijk van te zien
       await id();
     })
   },[]);
@@ -67,16 +67,16 @@ export default Favorite = (props) => {
           return result.properties.naam;
         }}
         renderItem={(item) => {
-          let result = JSON.parse(item.item);
-          let navigation = props.navigation;
+          let result = JSON.parse(item.item); //We doen json pars omdat onze data in een string zit je hebt item {onze data}
+          let navigation = props.navigation; //we gebruiken dit om naar listDetails te gaan als je klikt op touchableOpacity
           console.log(result);
           return (
             <ListItem>
               <ListItem.Content>
               <TouchableOpacity onPress={()=>navigation.navigate('ListDetails',result)}>
-              <ListItem.Title>{result.properties.naam}</ListItem.Title>
-                <ListItem.Subtitle></ListItem.Subtitle> 
-                </TouchableOpacity>
+                <ListItem.Title><Text style={styles.htext}>Naam:</Text> {result.properties.naam}</ListItem.Title>
+                <ListItem.Subtitle>adres: {result.properties.district} {result.properties.straat} {result.properties.straat}</ListItem.Subtitle> 
+              </TouchableOpacity>
               </ListItem.Content>
             </ListItem>)
         }} />}
