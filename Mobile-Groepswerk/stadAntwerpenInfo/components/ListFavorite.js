@@ -1,5 +1,5 @@
 import React ,{ useEffect, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Platform, ClippingRectangle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList, TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import {ListItem} from 'react-native-elements'
@@ -15,6 +15,7 @@ export default Favorite = (props) => {
 
   //setStoredData()
   const id = async () =>  {
+    console.log('k zit in de functie')
     let arraytest = [];
     //let favoriteArray = []; 
     allData.forEach( async (location) => {
@@ -35,7 +36,7 @@ export default Favorite = (props) => {
         //setStoredData([...arraytest]);
   }
   
-  id();
+  
   
   //console.log('hallo ' + storedData.feature.properties.id);
   //console.log('Hell' + storedData + '\n');
@@ -48,21 +49,37 @@ export default Favorite = (props) => {
   //let addData = props.addFavorite
   //let removeData = props.removeFavorte
   //console.log(storedData);
+
+  useEffect(() => {
+    let navigation = props.navigation;
+    // tip van SVen CHarleer :)
+    navigation.addListener("focus", async() => {
+      await id();
+    })
+  },[]);
+
     return (
       <View >
-        <FlatList
-        data={storedData != undefined}
-        //key={item => item.OBJECTID}
-        //keyExtractor={properties.id}
-        renderItem={item=>(
-        <ListItem >
-          <ListItem.Content >
-        <ListItem.Title >{item.naam}</ListItem.Title>
-            <ListItem.Subtitle ></ListItem.Subtitle> 
-          </ListItem.Content>
-        </ListItem>)}>
-
-        </FlatList>
+        {storedData && <FlatList
+        data={storedData}
+        keyExtractor={(item) => {
+          let result = JSON.parse(item);
+          return result.properties.naam;
+        }}
+        renderItem={(item) => {
+          let result = JSON.parse(item.item);
+          let navigation = props.navigation;
+          console.log(result);
+          return (
+            <ListItem>
+              <ListItem.Content>
+              <TouchableOpacity onPress={()=>navigation.navigate('ListDetails',result)}>
+              <ListItem.Title>{result.properties.naam}</ListItem.Title>
+                <ListItem.Subtitle></ListItem.Subtitle> 
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>)
+        }} />}
         
       </View>
     )
