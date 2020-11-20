@@ -45,9 +45,12 @@ export default MapsScreen = (props) => {
               setVenster(true); //Van het moment je op de marker druk open je het venster
               setDetailvenster({ // nodig wegens ik fuking de zelfde informatie nodig heb op de view als het moment dat je op de marker klikt
                 title: report.properties.naam, /*Fukking grote ontdenkking na dagen zoeken kan ik via states waarde geven hoe de fuk moets ik dat weten*/
-                description: report.properties.straat,
+                description: report.properties.straat, //Geeft je de straat terug
+                huisnummer: report.properties.huisnummer, // Geeft je het huisnummer terug
+                postcode: report.properties.postcode, // geeft je de postcode terug
+                district: report.properties.district, // Feef je het district terug
                 item: report.properties.OBJECTID,
-                all: report
+                all: report //Geef je alldata terug is nodig voor de knop details om je zo te verwijzen naar ListDetails
               })
             }}
             /> 
@@ -61,7 +64,7 @@ export default MapsScreen = (props) => {
             <View style={styles.bubbleText}>
             
                 <Text style={styles.titleStyle}>Title: {detailvenster.title}</Text> 
-                <Text style={styles.descriptionStyle}>Description: {detailvenster.description}</Text>
+        <Text style={styles.descriptionStyle}>Description: {detailvenster.district} {detailvenster.description} {detailvenster.huisnummer} </Text>
               
             
                 
