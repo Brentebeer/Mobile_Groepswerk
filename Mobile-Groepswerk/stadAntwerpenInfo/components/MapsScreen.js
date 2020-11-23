@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, Platform, Button } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Platform, Button, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import * as Location from 'expo-location';
@@ -28,10 +28,10 @@ export default MapsScreen = (props) => {
     })();
   }, []);
   let navigation = props.navigation;
-  let text = 'Waiting..';
+  let text = 'Loading location...';
   if (errorMsg) {
     text=errorMsg;
-    return(<View><Text>{text}</Text></View>)
+    return(<View style={styles.container}><Text style={styles.WaitingTxt} >{text}</Text></View>)
   } else if (location) {
     
     return(
@@ -84,7 +84,7 @@ export default MapsScreen = (props) => {
   
   }
   else {
-    return(<View><Text>{text}</Text></View>)
+    return(<View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large"color="red" ></ActivityIndicator></View>)
   }
   
   //let data = []
@@ -111,7 +111,7 @@ export default MapsScreen = (props) => {
       backgroundColor: 'white',
       position: 'absolute',
       height: 104,
-      width: 390,
+      width: 360,
       alignSelf: 'center', /*Zorgt dat bubble/venster in het midden komt te staan*/ 
       bottom: 30 /*Nog een ontdekking na een half uur prutsen om deze buble zoals ik noem of venster van onder te zetten moet je bottom gebruiker*/
 
@@ -139,4 +139,13 @@ export default MapsScreen = (props) => {
       mapStyle: {
         flex: 1
       },
+      container: {
+        flex: 1,
+        justifyContent: "center"
+      },
+      horizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
+      }
   });
