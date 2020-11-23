@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, Platform, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-
+import * as Location from 'expo-location';
 import { navigation} from '@react-navigation/native';
 
 // Voor de map
@@ -13,6 +13,80 @@ import { createNativeWrapper } from 'react-native-gesture-handler';
 export default MapsScreen = (props) => {
   const [venster, setVenster] = useState(false); /*Dit is HEEL BELANGRIJK HEEF MIJ UREN GEDUURD OM ERMEE TE SPELEN zorgt dat we het venster kunnen openen en sluiten*/
   const [detailvenster, setDetailvenster] = useState([]); /*OOK HEEL BELANGRIJK NO JOKE zorg dat we informatie opslaan om die later te presenteren LANGE LEVEN YOUTUBE*/
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+  let navigation = props.navigation;
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text=errorMsg;
+    return(<View><Text>{text}</Text></View>)
+  } else if (location) {
+    
+    return(
+    <View style={styles.containerMap}>
+    <MapView style={styles.mapStyle} initialRegion={{latitude:location.coords.latitude,
+       longitude:location.coords.longitude,
+       longitudeDelta:0.12874,
+       latitudeDelta:0.04888}}>
+      
+      {props.publicSwimmingPoolData.length > 0 && props.publicSwimmingPoolData.map((report,index) => {
+        return (<Marker
+        key={index}
+        coordinate={{latitude: report.geometry.coordinates[1], longitude: report.geometry.coordinates[0]}}
+        //title={report.properties.naam}
+        //description={report.properties.straat}
+        onPress={() => { //Zeer belangrijk heeft mij eeuwen geduurd om te ontdekken om met states te werken jaar nooit eerder ontdekt egt triest dat ik er zoveel tijd aan ben kwijtgraakt
+          setVenster(true); //Van het moment je op de marker druk open je het venster
+          setDetailvenster({ // nodig wegens ik fuking de zelfde informatie nodig heb op de view als het moment dat je op de marker klikt
+            title: report.properties.naam, /*Fukking grote ontdenkking na dagen zoeken kan ik via states waarde geven hoe de fuk moets ik dat weten*/
+            description: report.properties.straat, //Geeft je de straat terug
+            huisnummer: report.properties.huisnummer, // Geeft je het huisnummer terug
+            postcode: report.properties.postcode, // geeft je de postcode terug
+            district: report.properties.district, // Feef je het district terug
+            item: report.properties.OBJECTID,
+            all: report //Geef je alldata terug is nodig voor de knop details om je zo te verwijzen naar ListDetails
+          })
+        }}
+        /> 
+      )})}
+    </MapView>
+    {
+      venster && //Stijn dit heeft mij een heel woensdag genomen om te ontdekken. Dit zorgt ervoor om alles wat hier achter staat te tonen vanaf het moment de de persoon drukt op de marker ik zat op youtube te zoeken en plots dee die Indier dit ineens.
+      <View style={styles.bubble}>
+        <TouchableOpacity style={{ flexDirection: 'row-reverse' }} onPress={() => {setVenster(false)}}>
+          <Text style={{fontSize: 20, padding: 0}}>X</Text></TouchableOpacity>
+        <View style={styles.bubbleText}>
+        
+            <Text style={styles.titleStyle}>Title: {detailvenster.title}</Text> 
+    <Text style={styles.descriptionStyle}>Description: {detailvenster.district} {detailvenster.description} {detailvenster.huisnummer} </Text>
+          
+        
+            
+        </View>
+        <Button title="details" color='red' onPress={()=>navigation.navigate('ListDetails', detailvenster.all)}/>
+      </View>
+    }
+    
+  </View>)
+    
+  
+  }
+  else {
+    return(<View><Text>{text}</Text></View>)
+  }
+  
   //let data = []
     // useEffect(() => {
     //   setArray(props.publicSwimmingPoolData);
@@ -22,61 +96,13 @@ export default MapsScreen = (props) => {
     //    swimmingPoolData += props.publicSwimmingPooldata;
     // }
     
-    let navigation = props.navigation;
+    
     //let data = props.publicSwimmingPoolData; /*word gebruikt om de data te testen NIET VERWIJDEREN*/
     //console.log(data); /*word gebruikt om de data te testen NIET VERWIJDEREN*/
     //console.log(props.publicSwimmingPoolData.length);
 
-    
-    return (
-      <View style={styles.containerMap}>
-        <MapView style={styles.mapStyle} initialRegion={{latitude:51.228493,
-           longitude:4.404578,
-           longitudeDelta:0.12874,
-           latitudeDelta:0.04888}}>
-          
-          {props.publicSwimmingPoolData.length > 0 && props.publicSwimmingPoolData.map((report,index) => {
-            return (<Marker
-            key={index}
-            coordinate={{latitude: report.geometry.coordinates[1], longitude: report.geometry.coordinates[0]}}
-            //title={report.properties.naam}
-            //description={report.properties.straat}
-            onPress={() => { //Zeer belangrijk heeft mij eeuwen geduurd om te ontdekken om met states te werken jaar nooit eerder ontdekt egt triest dat ik er zoveel tijd aan ben kwijtgraakt
-              setVenster(true); //Van het moment je op de marker druk open je het venster
-              setDetailvenster({ // nodig wegens ik fuking de zelfde informatie nodig heb op de view als het moment dat je op de marker klikt
-                title: report.properties.naam, /*Fukking grote ontdenkking na dagen zoeken kan ik via states waarde geven hoe de fuk moets ik dat weten*/
-                description: report.properties.straat, //Geeft je de straat terug
-                huisnummer: report.properties.huisnummer, // Geeft je het huisnummer terug
-                postcode: report.properties.postcode, // geeft je de postcode terug
-                district: report.properties.district, // Feef je het district terug
-                item: report.properties.OBJECTID,
-                all: report //Geef je alldata terug is nodig voor de knop details om je zo te verwijzen naar ListDetails
-              })
-            }}
-            /> 
-          )})}
-        </MapView>
-        {
-          venster && //Stijn dit heeft mij een heel woensdag genomen om te ontdekken. Dit zorgt ervoor om alles wat hier achter staat te tonen vanaf het moment de de persoon drukt op de marker ik zat op youtube te zoeken en plots dee die Indier dit ineens.
-          <View style={styles.bubble}>
-            <TouchableOpacity style={{ flexDirection: 'row-reverse' }} onPress={() => {setVenster(false)}}>
-              <Text style={{fontSize: 20, padding: 0}}>X</Text></TouchableOpacity>
-            <View style={styles.bubbleText}>
-            
-                <Text style={styles.titleStyle}>Title: {detailvenster.title}</Text> 
-        <Text style={styles.descriptionStyle}>Description: {detailvenster.district} {detailvenster.description} {detailvenster.huisnummer} </Text>
-              
-            
-                
-            </View>
-            <Button title="details" color='red' onPress={()=>navigation.navigate('ListDetails', detailvenster.all)}/>
-          </View>
-        }
-        
-      </View>
-    )
-    
 }
+   
 
 
 
