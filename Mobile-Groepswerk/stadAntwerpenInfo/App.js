@@ -21,6 +21,7 @@ const Tab = createBottomTabNavigator();
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 
+
 //stack navigation
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -96,7 +97,7 @@ export default function app() {
         <Tab.Screen name="List"   options={{tabBarIcon: ({color, size})  =>(<Entypo name="map" size={24} color="black"/>)}}>
           {(props)=><StackList {...props} pass2={zwembaden} />}
         </Tab.Screen>
-        <Tab.Screen name="Favorites" >
+        <Tab.Screen name="Favorites" options={{tabBarIcon: ({color, size}) => <Entypo name="star-outlined" size={24} color="black" />}}>
           {(props) => <StackFavorite {...props} favoritesSwimData={zwembaden}/>}
         </Tab.Screen>
       </Tab.Navigator>
