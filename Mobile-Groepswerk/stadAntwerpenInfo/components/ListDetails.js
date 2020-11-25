@@ -32,8 +32,10 @@ export default ListDetails = (props) => {
     
       useEffect(() => {
         
-        getImg();
-        }, [jpg]);
+          getImg()
+       
+        
+        }, []);
     
 
 
@@ -43,7 +45,7 @@ export default ListDetails = (props) => {
         
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri:jpg}} key={Date.now()}></Image>
+        <Image style={styles.image} source={{uri:jpg + '?' + new Date()}} ></Image>
         <View style={styles.card}>
         <Text style={styles.htext}>Naam:</Text>
         <Text style={styles.text}>{props.route.params.properties.naam}</Text>
@@ -53,7 +55,7 @@ export default ListDetails = (props) => {
         <Text style={styles.text}>{props.route.params.properties.publiek}</Text>
         
         
-        <Button title="Take a picture!"   onPress={()=> {navigation.navigate('Camera',{id:props.route.params.properties.OBJECTID})}}  ></Button>
+        <Button title="Neem een foto!"   onPress={()=> {navigation.navigate('Camera',{id:props.route.params.properties.OBJECTID})}}  ></Button>
       </View>
 
       </View>
