@@ -5,12 +5,16 @@ import {useStateIfMounted} from 'use-state-if-mounted';
 
 
 //import Components
-
 import MapsScreen from './components/MapsScreen';
-import MapsDetail from './components/MapsDetails';
 import ListScreen from './components/ListScreen';
+
 import listDetail from './components/ListDetails';
 import CameraApp from './components/Camera';
+
+import ListDetail from './components/ListDetails';
+import ListFavorite from './components/ListFavorite';
+
+
 //tab navigation Bottom tab navigator
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -22,29 +26,24 @@ const Tab = createBottomTabNavigator();
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 
+
 //stack navigation
 import {createStackNavigator} from '@react-navigation/stack';
-import ListDetails from './components/ListDetails';
+
+
+
 
 const Stack = createStackNavigator();
-
-
-
-
-
-
 
 const StackMaps = (props) => {
   let AllData = props.pass2;
   //console.log(props.pass2);
-    
-  
   return(
     <Stack.Navigator>
       <Stack.Screen name="MapsScreen"  >
         {() => <MapsScreen {...props} publicSwimmingPoolData={AllData}/>}
       </Stack.Screen>
-      <Stack.Screen name="MapsDetail" component={MapsDetail} />
+      <Stack.Screen name="ListDetails" component={ListDetails} />
     </Stack.Navigator> 
   )
 }
@@ -52,7 +51,6 @@ const StackMaps = (props) => {
 const StackList = (props) => {
   let zwembaden2=props.pass2
     
-  
   return(
     <Stack.Navigator>
       <Stack.Screen name="ListScreen">
@@ -60,9 +58,22 @@ const StackList = (props) => {
       </Stack.Screen>
       <Stack.Screen name="ListDetails" component={ListDetails} />
       <Stack.Screen name="Camera" component={CameraApp} />
+      <Stack.Screen name="ListFavorite" component={ListFavorite} />
     </Stack.Navigator> 
   )
 }
+
+const StackFavorite = (props) => {
+  let zwembaden3 = props.favoritesSwimData
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="ListFavorite" >
+      {() => <ListFavorite {...props} publicSwim={zwembaden3}/>}
+      </Stack.Screen>
+    </Stack.Navigator>
+  )
+}
+
 
 
 //taps
@@ -90,8 +101,11 @@ export default function app() {
           {props => <StackMaps {...props} pass2={zwembaden}/>}
         </Tab.Screen> 
         <Tab.Screen name="List"   options={{tabBarIcon: ({color, size})  =>(<Entypo name="map" size={24} color="black"/>)}}>
-        {(props)=><StackList {...props} pass2={zwembaden} />}
-          </Tab.Screen>
+          {(props)=><StackList {...props} pass2={zwembaden} />}
+        </Tab.Screen>
+        <Tab.Screen name="Favorites" options={{tabBarIcon: ({color, size}) => <Entypo name="star-outlined" size={24} color="black" />}}>
+          {(props) => <StackFavorite {...props} favoritesSwimData={zwembaden}/>}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

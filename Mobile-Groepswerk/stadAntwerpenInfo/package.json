@@ -28,7 +28,8 @@
     "react-native-screens": "~2.10.1",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.12",
-    "use-state-if-mounted": "^1.0.4"
+    "use-state-if-mounted": "^1.0.4",
+    "expo-location": "~9.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
