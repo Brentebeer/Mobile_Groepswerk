@@ -30,7 +30,7 @@ export default Favorite = (props) => {
         //console.log('value is not null = ' + storedData);
       }
         
-    });
+    });//beste master
       
         //console.log('test2' + favoriteArray);
         //setStoredData([...arraytest]);
