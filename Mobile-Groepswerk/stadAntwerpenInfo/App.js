@@ -24,6 +24,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 //stack navigation
 import {createStackNavigator} from '@react-navigation/stack';
+import Camera from './components/Camera';
 
 
 
@@ -53,6 +54,7 @@ const StackList = (props) => {
       </Stack.Screen>
       <Stack.Screen name="ListDetails" component={ListDetails} />
       <Stack.Screen name="ListFavorite" component={ListFavorite} />
+      <Stack.Screen name="Camera" component={Camera} />
     </Stack.Navigator> 
   )
 }

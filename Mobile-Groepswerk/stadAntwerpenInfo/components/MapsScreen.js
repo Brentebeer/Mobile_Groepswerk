@@ -13,30 +13,32 @@ import { createNativeWrapper } from 'react-native-gesture-handler';
 export default MapsScreen = (props) => {
   const [venster, setVenster] = useState(false); /*Dit is HEEL BELANGRIJK HEEF MIJ UREN GEDUURD OM ERMEE TE SPELEN zorgt dat we het venster kunnen openen en sluiten*/
   const [detailvenster, setDetailvenster] = useState([]); /*OOK HEEL BELANGRIJK NO JOKE zorg dat we informatie opslaan om die later te presenteren LANGE LEVEN YOUTUBE*/
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [location, setLocation] = useState(null);//state om huidige locatie te fetchen
+  const [errorMsg, setErrorMsg] = useState(null);//msg indien locatie permission van gsm niet wordt geaccepteerd
   
-  useEffect(() => {
+
+  
+  useEffect(() => { 
     (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== 'granted') {
+      let { status } = await Location.requestPermissionsAsync();//popup die vraagt of de applicatie locatie van toestel mag gebruiken
+      if (status !== 'granted') {//als men niet accepteerd geen map tonen,wel error msg
         setErrorMsg('Permission to access location was denied');
       }
 
-      let location = await Location.getCurrentPositionAsync({});
+      let location = await Location.getCurrentPositionAsync({});//als permission oké is de locatie opvragen en state updaten
       setLocation(location);
     })();
   }, []);
   let navigation = props.navigation;
   let text = 'Loading location...';
-  if (errorMsg) {
+  if (errorMsg) {//als state van errormsg iets bevat dit tonen ipv map(normaal krijgt men dit nooit te zien)
     text=errorMsg;
     return(<View style={styles.container}><Text style={styles.WaitingTxt} >{text}</Text></View>)
-  } else if (location) {
+  } else if (location) {//als locatie geladen is de map toonen
     
     return(
     <View style={styles.containerMap}>
-    <MapView style={styles.mapStyle} initialRegion={{latitude:location.coords.latitude,
+    <MapView style={styles.mapStyle} initialRegion={{latitude:location.coords.latitude,//region tonen met de coordinaten van de huidige locatie
        longitude:location.coords.longitude,
        longitudeDelta:0.12874,
        latitudeDelta:0.04888}}>
@@ -83,7 +85,7 @@ export default MapsScreen = (props) => {
     
   
   }
-  else {
+  else {//loading icon wanneer de huidige locatie nog niet is geladen
     return(<View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large"color="red" ></ActivityIndicator></View>)
   }
   
