@@ -7,13 +7,8 @@ import {useStateIfMounted} from 'use-state-if-mounted';
 //import Components
 import MapsScreen from './components/MapsScreen';
 import ListScreen from './components/ListScreen';
-
-import listDetail from './components/ListDetails';
-import CameraApp from './components/Camera';
-
 import ListDetail from './components/ListDetails';
 import ListFavorite from './components/ListFavorite';
-
 
 //tab navigation Bottom tab navigator
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -57,7 +52,6 @@ const StackList = (props) => {
       {(props)=><ListScreen {...props} apiData={zwembaden2}/>}
       </Stack.Screen>
       <Stack.Screen name="ListDetails" component={ListDetails} />
-      <Stack.Screen name="Camera" component={CameraApp} />
       <Stack.Screen name="ListFavorite" component={ListFavorite} />
     </Stack.Navigator> 
   )

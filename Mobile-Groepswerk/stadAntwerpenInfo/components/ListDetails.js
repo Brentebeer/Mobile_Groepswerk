@@ -1,24 +1,8 @@
 import React ,{ useEffect, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, Platform, Button,TouchableOpacity,Image} from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Platform, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-community/async-storage';
 import {ListItem} from 'react-native-elements'
-import { Camera } from 'expo-camera';
-import { navigation} from '@react-navigation/native';
-import CameraApp from './Camera';
-import * as FileSystem from 'expo-file-system';
-import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
-//Pagina List
-export default ListDetails = (props) => {
-  let id=props.route.params.properties.OBJECTID
-  let navigation=props.navigation;
-  const[jpg,setImg]=useState();
-  
-
-    const getImg=async()=>{
-      try {
-        let img=await FileSystem.getInfoAsync(FileSystem.documentDirectory+id+'.jpg')
-        
 import { navigation} from '@react-navigation/native';
 
 //Pagina List: Stijn Pas op als je hier iets aanpast dit was egt iritant om te maken laat alleen fixen
@@ -47,31 +31,7 @@ export default ListDetails = (props) => {
         setButtonText("toevoegen") // hier veranderen we de text van de button op toevoegen
       } catch(e) {
 
-        if(img!==null) {
-          console.log('test',img.uri)
-          setImg(img.uri)
-        }
       }
-
-       catch(e) {
-
-      }
-    }
-
-    
-      useEffect(() => {
-        
-          getImg()
-       
-        
-        }, []);
-    
-
-
-
-
-
-        
     }
    
     const getFavs = async (value) => {
@@ -95,7 +55,6 @@ export default ListDetails = (props) => {
     
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri:jpg + '?' + new Date()}} ></Image>
         <View style={styles.card}>
         <Text style={styles.htext}>Naam:</Text>
         <Text style={styles.text}>{props.route.params.properties.naam}</Text>
@@ -103,9 +62,7 @@ export default ListDetails = (props) => {
         <Text style={styles.text}>{props.route.params.properties.type}</Text>
         <Text style={styles.htext}>Publiek:</Text>
         <Text style={styles.text}>{props.route.params.properties.publiek}</Text>
-           
-        <Button title="Neem een foto!"   onPress={()=> {navigation.navigate('Camera',{id:props.route.params.properties.OBJECTID})}}  ></Button>
-
+        
         <Button title={buttonText} onPress={()=>{ favs ? deleteFav(props.route.params) : storeFav(props.route.params); setFav(!favs)}}/> 
     
       </View>
@@ -134,13 +91,6 @@ export default ListDetails = (props) => {
     htext:{
       fontSize:18,
       fontWeight:"bold"
-    },
-
-    image:{
-      flex:1,
-      width:undefined,
-      height:undefined,
-
     }
 
   });

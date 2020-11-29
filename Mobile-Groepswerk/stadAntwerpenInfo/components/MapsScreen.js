@@ -96,9 +96,6 @@ export default MapsScreen = (props) => {
     //    swimmingPoolData += props.publicSwimmingPooldata;
     // }
     
-
-    //let data = props.publicSwimmingPoolData;
-    
     
     //let data = props.publicSwimmingPoolData; /*word gebruikt om de data te testen NIET VERWIJDEREN*/
     //console.log(data); /*word gebruikt om de data te testen NIET VERWIJDEREN*/
