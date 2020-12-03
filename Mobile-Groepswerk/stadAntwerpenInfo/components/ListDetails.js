@@ -82,9 +82,12 @@ export default ListDetails = (props) => {
         <Text style={styles.text}>{props.route.params.properties.type}</Text>
         <Text style={styles.htext}>Publiek:</Text>
         <Text style={styles.text}>{props.route.params.properties.publiek}</Text>
-        <Button title="neem een foto!" onPress={()=>{navigation.navigate('Camera',{id:props.route.params.properties.OBJECTID})}}/> 
+        
+        <Button title="neem een foto!"  onPress={()=>{navigation.navigate('Camera',{id:props.route.params.properties.OBJECTID})}}/> 
+        <View style={{width:10,height:10}}></View>
+        
         <Button title={buttonText} onPress={()=>{ favs ? deleteFav(props.route.params) : storeFav(props.route.params); setFav(!favs)}}/> 
-      
+        
       </View>
 
       </View>
@@ -117,6 +120,6 @@ export default ListDetails = (props) => {
       flex:1,
       width:undefined,//beide op undefined zodat via flex ruimte gevult wordt, zonder width en height laden images niet
       height:undefined,
-    }
+    },
 
   });
